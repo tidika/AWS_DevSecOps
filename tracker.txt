@@ -1,0 +1,3 @@
+
+
+Tomorrow start in figuring out how to write workflow and template.yml for my code. Like what makes sense to be in the workflow and what should be in the template.yml'
