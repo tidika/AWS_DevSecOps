@@ -24,7 +24,7 @@ Actions:
           Files:
             - '**/*'  # Specify the files to include in the artifact
     Environment:
-      Name: default_environment
+      Name: shop-app
       Connections:
         - Name: "930627915954"  # Replace with your connection name
           Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
