@@ -31,4 +31,5 @@ Actions:
     Configuration:
       Steps:
         - Run: echo "Running the configuration"
+        - Run: grep -Fq "Shop" front-end/files/public/index.html
 
