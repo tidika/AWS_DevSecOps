@@ -17,10 +17,6 @@ Actions:
     Outputs:
       Artifacts:
         - Name: build_output
-        #   Location:
-        #     Type: S3
-        #     BucketName: your-s3-bucket-name
-        #     Path: build/artifacts/
           Files:
             - '**/*'  # Specify the files to include in the artifact
     Environment:
@@ -32,4 +28,27 @@ Actions:
       Steps:
         - Run: echo "Running the configuration"
         - Run: grep -Fq "Shop" front-end/files/public/index.html
+
+  deploy_to_ec2:
+    Identifier: aws/cfn-deploy@v1
+    Inputs:
+      Artifacts:
+        - build_output
+    Environment:
+      Name: shop-app
+      Connections:
+        - Name: "930627915954"  # Replace with your connection name
+          Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
+    Configuration:
+      name: my-ec2-stack
+      region: us-east-1
+      template: template.yaml
+      capabilities: CAPABILITY_IAM
+    #   Parameters:
+    #     - ParameterKey: KeyName
+    #       ParameterValue: my-key-pair  # Replace with your actual key pair name
+    #     - ParameterKey: InstanceType
+    #       ParameterValue: t2.micro
+
+
 
