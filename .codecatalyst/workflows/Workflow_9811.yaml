@@ -1,0 +1,35 @@
+Name: Workflow_9811
+SchemaVersion: "1.0"
+
+# Optional - Set automatic triggers.
+Triggers:
+  - Type: Push
+    Branches:
+      - main
+
+# Required - Define action configurations.
+Actions:
+  build_application:
+    Identifier: aws/build@v1
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Outputs:
+      Artifacts:
+        - Name: build_output
+        #   Location:
+        #     Type: S3
+        #     BucketName: your-s3-bucket-name
+        #     Path: build/artifacts/
+          Files:
+            - '**/*'  # Specify the files to include in the artifact
+    Environment:
+      Name: default_environment
+      Connections:
+        - Name: "930627915954"  # Replace with your connection name
+          Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
+    Configuration:
+      Steps:
+        - Run: echo "Running the configuration"
+        - Run: buildspec.yml
+
