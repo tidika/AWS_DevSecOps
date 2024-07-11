@@ -31,5 +31,4 @@ Actions:
     Configuration:
       Steps:
         - Run: echo "Running the configuration"
-        - Run: buildspec.yml
 
