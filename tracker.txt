@@ -1,3 +1,4 @@
 
-
-Tomorrow start in figuring out how to write workflow and template.yml for my code. Like what makes sense to be in the workflow and what should be in the template.yml'
+Tomorrow, Start by understanding all the code you wrote for this workflow. Here is a good link "https://docs.aws.amazon.com/codecatalyst/latest/userguide/build-action-ref.htmlhttps://docs.aws.amazon.com/codecatalyst/latest/userguide/build-action-ref.html"
+Try to implement deploy code for the workflow. 
+Once I get that, then I can go ahead and continue with the book since I have figured how to implement stuff using workflow. 

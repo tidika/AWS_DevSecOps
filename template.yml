@@ -1,0 +1,67 @@
+#https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/gettingstarted.templatebasics.html
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy an application to an EC2 instance
+
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+  InstanceType:
+    Description: EC2 instance type
+    Type: String
+    Default: t2.micro
+    AllowedValues: [t2.micro, t2.small, t2.medium]
+    ConstraintDescription: must be a valid EC2 instance type.
+
+Mappings:
+  AWSRegionToAMI:
+    us-east-1:
+      AMI: ami-0195204d5dce06d99  # Replace with your desired AMI ID for us-east-1
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      ImageId: !FindInMap [AWSRegionToAMI, !Ref "AWS::Region", AMI]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          sudo yum update -y
+          sudo yum install -y ruby wget
+          wget https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install
+          chmod +x ./install
+          sudo ./install auto
+          sudo service codedeploy-agent status
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+          export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+          command -v nvm
+          nvm install 12
+          nvm use 12 
+          nvm alias default 12
+          sudo ln -s $(which node) /usr/bin/
+          sudo ln -s $(which npm) /usr/bin/
+          yum install -y httpd
+          systemctl start httpd
+          systemctl enable httpd
+          cd /var/www/html/
+          nohup node front-end-server.js > server.log 2>&1 &
+      Tags:
+        - Key: Name
+          Value: DevServer  # Replace with your desired instance name
+
+Outputs:
+  InstanceId:
+    Description: The Instance ID
+    Value: !Ref EC2Instance
+  PublicIP:
+    Description: The public IP address of the EC2 instance
+    Value: !GetAtt EC2Instance.PublicIp
+  PublicDNS:
+    Description: The public DNS name of the EC2 instance
+    Value: !GetAtt EC2Instance.PublicDnsName
+
