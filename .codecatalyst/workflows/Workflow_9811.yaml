@@ -42,7 +42,7 @@ Actions:
     Configuration:
       name: my-ec2-stack
       region: us-east-1
-      template: template.yaml
+      template: ./template.yaml
       capabilities: CAPABILITY_IAM
     #   Parameters:
     #     - ParameterKey: KeyName
