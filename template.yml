@@ -25,7 +25,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
-      KeyName: !Ref KeyName
+      KeyName: codedeploy
       ImageId: !FindInMap [AWSRegionToAMI, !Ref "AWS::Region", AMI]
       UserData:
         Fn::Base64: !Sub |
