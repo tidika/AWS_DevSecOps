@@ -39,7 +39,6 @@ Resources:
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
-          command -v nvm
           sudo nvm install 12
           sudo nvm use 12
           sudo nvm alias default 12
@@ -48,6 +47,7 @@ Resources:
           sudo yum install -y httpd
           sudo systemctl start httpd
           sudo systemctl enable httpd
+          sudo cp -r /root/front-end /var/www/html/
           cd /var/www/html/
           nohup node front-end-server.js > server.log 2>&1 &
       Tags:
