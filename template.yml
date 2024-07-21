@@ -47,7 +47,7 @@ Resources:
           sudo yum install -y httpd
           sudo systemctl start httpd
           sudo systemctl enable httpd
-          sudo cp -r /front-end /var/www/html/
+          sudo cp -r front-end/ /var/www/html/ 
           cd /var/www/html/
           nohup node front-end-server.js > server.log 2>&1 &
       Tags:
