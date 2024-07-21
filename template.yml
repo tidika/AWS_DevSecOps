@@ -38,11 +38,11 @@ Resources:
           sudo service codedeploy-agent status
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
           export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
           command -v nvm
-          nvm install 12
-          nvm use 12
-          nvm alias default 12
+          sudo nvm install 12
+          sudo nvm use 12
+          sudo nvm alias default 12
           sudo ln -s $(which node) /usr/bin/
           sudo ln -s $(which npm) /usr/bin/
           sudo yum install -y httpd
@@ -52,7 +52,7 @@ Resources:
           nohup node front-end-server.js > server.log 2>&1 &
       Tags:
         - Key: Name
-          Value: DevServer  # Replace with your desired instance name
+          Value: DevServer2  # Replace with your desired instance name
 
 Outputs:
   InstanceId:
