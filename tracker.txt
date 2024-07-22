@@ -2,3 +2,27 @@
 Tomorrow, Start by understanding all the code you wrote for this workflow. Here is a good link "https://docs.aws.amazon.com/codecatalyst/latest/userguide/build-action-ref.htmlhttps://docs.aws.amazon.com/codecatalyst/latest/userguide/build-action-ref.html"
 Try to implement deploy code for the workflow. 
 Once I get that, then I can go ahead and continue with the book since I have figured how to implement stuff using workflow. 
+
+
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          sudo yum update -y
+          sudo yum install -y ruby wget
+          wget https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install
+          chmod +x ./install
+          sudo ./install auto
+          sudo service codedeploy-agent status
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
+          sudo nvm install 12
+          sudo nvm use 12
+          sudo nvm alias default 12
+          sudo ln -s $(which node) /usr/bin/
+          sudo ln -s $(which npm) /usr/bin/
+          sudo yum install -y httpd
+          sudo systemctl start httpd
+          sudo systemctl enable httpd
+          sudo cp -r front-end /var/www/html/ 
+          cd /var/www/html/
+          nohup node front-end-server.js > server.log 2>&1 &
