@@ -47,8 +47,9 @@ Resources:
           sudo yum install -y httpd
           sudo systemctl start httpd
           sudo systemctl enable httpd
-          git clone https://github.com/tidika/AWS_DevSecOps.git /tmp/AWS_DevSecOps
-          sudo cp -r /tmp/AWS_DevSecOps/front-end /var/www/html/ 
+          mkdir -p /home/ec2-user/files
+          aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /home/ec2-user/files
+          mv /home/ec2-user/files /var/www/html
           cd /var/www/html/
           nohup node front-end-server.js > server.log 2>&1 &
       Tags:
