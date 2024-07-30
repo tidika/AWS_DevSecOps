@@ -46,6 +46,7 @@ Resources:
           sudo systemctl enable httpd
           sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /home/ec2-user/files --recursive
           sudo mv /home/ec2-user/files/* /var/www/html
+          cd /var/www/html
           node front-end-server.js
       Tags:
         - Key: Name
