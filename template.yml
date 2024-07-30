@@ -48,6 +48,7 @@ Resources:
           sudo yum install -y httpd
           sudo systemctl start httpd
           sudo systemctl enable httpd
+          sudo mkdir -p /home/ec2-user/files
           sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /home/ec2-user/files --recursive
           sudo mv /home/ec2-user/files/* /var/www/html
           nohup node front-end-server.js > server.log 2>&1 &
