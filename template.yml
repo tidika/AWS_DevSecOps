@@ -41,7 +41,7 @@ Resources:
           sudo nvm alias default 12
           sudo ln -s $(which node) /usr/bin/
           sudo ln -s $(which npm) /usr/bin/
-          sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /home/ec2-user/ --recursive
+          sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files /home/ec2-user/ --recursive
           chmod +x start.sh
           ./start.sh
       Tags:
