@@ -33,10 +33,6 @@ Resources:
           #!/bin/bash
           sudo yum update -y
           sudo yum install -y ruby wget
-          wget https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install
-          chmod +x ./install
-          sudo ./install auto
-          sudo service codedeploy-agent status
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
@@ -48,13 +44,12 @@ Resources:
           sudo yum install -y httpd
           sudo systemctl start httpd
           sudo systemctl enable httpd
-          sudo mkdir -p /home/ec2-user/files
           sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /home/ec2-user/files --recursive
           sudo mv /home/ec2-user/files/* /var/www/html
           nohup node front-end-server.js > server.log 2>&1 &
       Tags:
         - Key: Name
-          Value: DevServer  # Replace with your desired instance name
+          Value: DevServer2  # Replace with your desired instance name
 
 Outputs:
   InstanceId:
