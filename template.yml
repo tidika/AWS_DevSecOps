@@ -43,7 +43,8 @@ Resources:
           sudo ln -s $(which npm) /usr/bin/
           sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /home/ec2-user/files --recursive
           cd files
-          bash start.sh
+          chmod +x start.sh
+          sudo bash start.sh
       Tags:
         - Key: Name
           Value: DevServer  # Replace with your desired instance name
