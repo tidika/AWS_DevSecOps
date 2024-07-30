@@ -49,7 +49,7 @@ Resources:
           node front-end-server.js
       Tags:
         - Key: Name
-          Value: DevServer2  # Replace with your desired instance name
+          Value: DevServer  # Replace with your desired instance name
 
 Outputs:
   InstanceId:
