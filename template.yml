@@ -21,37 +21,12 @@ Mappings:
       AMI: ami-0195204d5dce06d99  # Replace with your desired AMI ID for us-east-1
 
 Resources:
-  EC2InstanceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: ec2.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: S3AccessPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:GetObject
-                Resource: arn:aws:s3:::tochukwu-idika-s3-bucket/*
-
-  EC2InstanceProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Roles:
-        - Ref: EC2InstanceRole
-
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
       KeyName: codedeploy
+      IamInstanceProfile: ec2-s3full-access
       ImageId: !FindInMap [AWSRegionToAMI, !Ref "AWS::Region", AMI]
       UserData:
         Fn::Base64: !Sub |
@@ -73,9 +48,7 @@ Resources:
           sudo yum install -y httpd
           sudo systemctl start httpd
           sudo systemctl enable httpd
-          sudo mkdir -p /home/ec2-user/files
-          sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /home/ec2-user/files --recursive
-          sudo mv /home/ec2-user/files/* /var/www/html
+          sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /var/www/html
           sudo cd /var/www/html/
           nohup node front-end-server.js > server.log 2>&1 &
       Tags:
