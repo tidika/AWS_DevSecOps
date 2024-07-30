@@ -47,7 +47,8 @@ Resources:
           sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files/ /home/ec2-user/files --recursive
           sudo mv /home/ec2-user/files/* /var/www/html
           cd /var/www/html
-          node front-end-server.js
+          sudo chmod +x front-end-server.js
+          nohup node front-end-server.js > /var/www/html/server.log 2>&1 &
       Tags:
         - Key: Name
           Value: DevServer  # Replace with your desired instance name
