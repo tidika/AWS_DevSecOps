@@ -47,6 +47,7 @@ Resources:
           rm -rf /home/ec2-user/files
           fi
           cd /home/ec2-user
+          echo 'running nodejs app'
           nohup node front-end-server.js > app.log 2>&1 &
       Tags:
         - Key: Name
