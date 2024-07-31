@@ -62,3 +62,8 @@ Once I get that, then I can go ahead and continue with the book since I have fig
           chmod +x ./install
           sudo ./install auto
           sudo service codedeploy-agent status
+
+          chmod +x start.sh
+          bash start.sh
+
+ps aux | grep <process_name>
