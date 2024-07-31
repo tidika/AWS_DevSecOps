@@ -43,8 +43,11 @@ Resources:
           sudo ln -s $(which npm) /usr/bin/
           cd /home/ec2-user
           sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files /home/ec2-user --recursive
-          sudo rm -rf /home/ec2-user/files
-          node front-end-server.js
+          if [ -d "/home/ec2-user/files" ]; then
+          rm -rf /home/ec2-user/files
+          fi
+          cd /home/ec2-user
+          nohup node front-end-server.js > app.log 2>&1 &
       Tags:
         - Key: Name
           Value: DevServer  # Replace with your desired instance name
