@@ -44,7 +44,7 @@ Resources:
           cd /home/ec2-user
           sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files /home/ec2-user --recursive
           chmod +x start.sh
-          ./start.sh
+          bash start.sh
       Tags:
         - Key: Name
           Value: DevServer  # Replace with your desired instance name
