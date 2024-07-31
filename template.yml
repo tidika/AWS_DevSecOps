@@ -41,20 +41,13 @@ Resources:
           sudo nvm alias default 12
           sudo ln -s $(which node) /usr/bin/
           sudo ln -s $(which npm) /usr/bin/
-          sudo npm install -g pm2
           cd /home/ec2-user
           sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files /home/ec2-user --recursive
-          if [ -d "/home/ec2-user/files" ]; then
-          rm -rf /home/ec2-user/files
-          fi
-          cd /home/ec2-user
-          echo 'running Node.js app with PM2'
-          pm2 start front-end-server.js --name "my-node-app"
-          pm2 save
-          pm2 startup systemd -u ec2-user --hp /home/ec2-user
+          nohup node front-end-server.js > outputs.log 2>&1 &
+
       Tags:
         - Key: Name
-          Value: DevServer2  # Replace with your desired instance name
+          Value: DevServer  # Replace with your desired instance name
 
 Outputs:
   InstanceId:
