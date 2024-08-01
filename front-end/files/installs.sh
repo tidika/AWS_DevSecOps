@@ -13,9 +13,6 @@ nvm use 12
 nvm alias default 12
 sudo ln -s $(which node) /usr/bin/
 sudo ln -s $(which npm) /usr/bin/
-echo "Downloading files from S3..."
-cd /home/ec2-user
-sudo aws s3 cp s3://tochukwu-idika-s3-bucket/installs.sh /home/ec2-user --recursive
 echo "Starting Node.js application..."
 nohup node front-end-server.js > outputs.log 2>&1 &
 echo "UserData script complete."
