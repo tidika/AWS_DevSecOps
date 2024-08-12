@@ -3,10 +3,10 @@ SchemaVersion: "1.0"
 
 # Optional - Set automatic triggers.
 Triggers:
-  - Type: PullRequest
-    Actions:
-      - opened  # Trigger when a pull request is created
-      - synchronize  # Trigger when the pull request is updated
+  - Type: PULLREQUEST
+    Events:
+      - Open  # Trigger when a pull request is created
+      - Revision  # Trigger when the pull request is updated
     Branches:
       - feature
       - develop
