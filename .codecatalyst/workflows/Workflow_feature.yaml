@@ -9,6 +9,7 @@ Triggers:
       - synchronize  # Trigger when the pull request is updated
     Branches:
       - feature
+      - develop
 
 # Required - Define action configurations.ZAs
 Actions:
