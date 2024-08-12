@@ -175,3 +175,5 @@ sudo aws s3 cp s3://tochukwu-idika-s3-bucket/mybuildspec/front-end/files /home/e
 echo "Starting Node.js application..."
 nohup node front-end-server.js > outputs.log 2>&1 &
 echo "UserData script complete."
+
+nothing serious. just testing stuff out. 
