@@ -78,7 +78,7 @@ Actions:
   Approval_02:
     Identifier: aws/approval@v1
     DependsOn:
-      - build_application
+      - deploy_to_ec2_dev
     Configuration:
       ApprovalsRequired: 1 
 
@@ -86,7 +86,6 @@ Actions:
     # Identifies the action. Do not modify this value.
     Identifier: aws/cfn-deploy@v1.1.0
     DependsOn:
-      - deploy_to_ec2_dev
       - Approval_02
 
 
