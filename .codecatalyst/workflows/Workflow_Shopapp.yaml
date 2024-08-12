@@ -1,13 +1,17 @@
-Name: Workflow_9811
+Name: Workflow_Shopapp
 SchemaVersion: "1.0"
 
 # Optional - Set automatic triggers.
 Triggers:
-  - Type: Push
+  - Type: PULLREQUEST
+    Events:
+      - Open  # Trigger when a pull request is created
+      - Revision  # Trigger when the pull request is updated
     Branches:
+      - develop
       - main
 
-# Required - Define action configurations.
+# Required - Define action configurations.ZAs
 Actions:
   build_application:
     Identifier: aws/build@v1
@@ -20,7 +24,7 @@ Actions:
           Files:
             - '**/*' # Specify the files to include in the artifact
     Environment:
-      Name: shop-app
+      Name: dev
       Connections:
         - Name: "930627915954" # Replace with your connection name
           Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
@@ -29,37 +33,23 @@ Actions:
         - Run: echo "Running the configuration"
         - Run: grep -Fq "Shop" front-end/files/public/index.html
 
-#   deploy_to_ec2:
-#     Identifier: aws/cfn-deploy@v1
-#     Inputs:
-#       Artifacts:
-#         - build_output
-#     Environment:
-#       Name: shop-app
-#       Connections:
-#         - Name: "930627915954" # Replace with your connection name
-#           Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
-#     Configuration:
-#       name: my-ec2-stack
-#       region: us-east-1
-#       template: ./template.yaml
-#       capabilities: CAPABILITY_IAM
-#     #   Parameters:
-#     #     - ParameterKey: KeyName
-#     #       ParameterValue: my-key-pair  # Replace with your actual key pair name
-#     #     - ParameterKey: InstanceType
-#     #       ParameterValue: t2.micro
-
-
+  Approval_01:
+    Identifier: aws/approval@v1
+    DependsOn:
+      - build_application
+    Configuration:
+      ApprovalsRequired: 1 
 
   deploy_to_ec2:
     # Identifies the action. Do not modify this value.
     Identifier: aws/cfn-deploy@v1.1.0
+    DependsOn:
+      - Approval_01
 
     # Specifies the source and/or artifacts to pass to the action as input.
     Inputs:
-       Artifacts:
-         - build_output
+      Artifacts:
+        - build_output
       # Optional
     #   Sources:
     #     - WorkflowSource # This specifies that the action requires this Workflow as a source
@@ -83,5 +73,7 @@ Actions:
       region: us-east-1
       
       capabilities: CAPABILITY_IAM
+
+  
 
 
