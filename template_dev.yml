@@ -38,7 +38,7 @@ Resources:
 
       Tags:
         - Key: Name
-          Value: DevServer  # Replace with your desired instance name
+          Value: devServer  # Replace with your desired instance name
 
 Outputs:
   InstanceId:
