@@ -100,7 +100,7 @@ Actions:
 
     # Required; You can use an environment to access AWS resources.
     Environment:
-      Name: dev
+      Name: prod
       Connections:
         - Name: "930627915954" # Replace with your connection name
           Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
