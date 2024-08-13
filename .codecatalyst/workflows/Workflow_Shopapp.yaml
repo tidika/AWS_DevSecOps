@@ -9,10 +9,12 @@ Triggers:
       - Revision  # Trigger when the pull request is updated
     Branches:
       - develop
+      - release
       - main
 
 # Required - Define action configurations.ZAs
 Actions:
+###################################################### Build application ########################################################################
   build_application:
     Identifier: aws/build@v1
     Inputs:
@@ -23,16 +25,16 @@ Actions:
         - Name: build_output
           Files:
             - '**/*' # Specify the files to include in the artifact
-    Environment:
-      Name: dev
-      Connections:
-        - Name: "930627915954" # Replace with your connection name
-          Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
+    # Environment:
+    #   Name: dev
+    #   Connections:
+    #     - Name: "930627915954" # Replace with your connection name
+    #       Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
     Configuration:
       Steps:
         - Run: echo "Running the configuration"
         - Run: grep -Fq "Shop" front-end/files/public/index.html
-
+###################################################### Get 1st approval ############################################################################
   Approval_01:
     Identifier: aws/approval@v1
     DependsOn:
@@ -40,12 +42,12 @@ Actions:
     Configuration:
       ApprovalsRequired: 1 
 
-  deploy_to_ec2:
+############################################################ Deploy to dev environment #############################################################
+  deploy_to_ec2_dev:
     # Identifies the action. Do not modify this value.
     Identifier: aws/cfn-deploy@v1.1.0
     DependsOn:
       - Approval_01
-
     # Specifies the source and/or artifacts to pass to the action as input.
     Inputs:
       Artifacts:
@@ -56,7 +58,7 @@ Actions:
 
     # Required; You can use an environment to access AWS resources.
     Environment:
-      Name: shop-app
+      Name: dev
       Connections:
         - Name: "930627915954" # Replace with your connection name
           Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
@@ -64,16 +66,55 @@ Actions:
         # Defines the action's properties.
     Configuration:
       # Required; type: string; description: The path or URL to the CloudFormation template
-      template: ./template.yml
+      template: ./template_dev.yml
 
       # Required; type: string; description: The name of the CloudFormation stack
-      name: my-ec2-stack
+      name: my-ec2-stack-dev
 
       # Required; type: string; description: The AWS region name
       region: us-east-1
       
       capabilities: CAPABILITY_IAM
 
-  
+########################################################### Get 2nd Approval ##########################################################################
+  Approval_02:
+    Identifier: aws/approval@v1
+    DependsOn:
+      - deploy_to_ec2_dev
+    Configuration:
+      ApprovalsRequired: 1 
 
+########################################################## Deploy to prod environment ####################################################################
+  deploy_to_ec2_prod:
+    # Identifies the action. Do not modify this value.
+    Identifier: aws/cfn-deploy@v1.1.0
+    DependsOn:
+      - Approval_02
+    # Specifies the source and/or artifacts to pass to the action as input.
+    Inputs:
+      Artifacts:
+        - build_output
+      # Optional
+    #   Sources:
+    #     - WorkflowSource # This specifies that the action requires this Workflow as a source
+
+    # Required; You can use an environment to access AWS resources.
+    Environment:
+      Name: dev
+      Connections:
+        - Name: "930627915954" # Replace with your connection name
+          Role: CodeCatalystWorkflowDevelopmentRole-Mountpointe
+
+        # Defines the action's properties.
+    Configuration:
+      # Required; type: string; description: The path or URL to the CloudFormation template
+      template: ./template_prod.yml
+
+      # Required; type: string; description: The name of the CloudFormation stack
+      name: my-ec2-stack-prod
+
+      # Required; type: string; description: The AWS region name
+      region: us-east-1
+      
+      capabilities: CAPABILITY_IAM
 
