@@ -176,4 +176,4 @@ echo "Starting Node.js application..."
 nohup node front-end-server.js > outputs.log 2>&1 &
 echo "UserData script complete."
 
-nothing serious. just testing stuff out. 
+nothing serious. just testing stuff out!!. 
